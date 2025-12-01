@@ -1,0 +1,15 @@
+feedparser>=6.0.10
+gTTS>=2.3.2
+moviepy>=1.0.3
+Pillow>=9.5.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+Keyring>=24.0.0
+google-auth-oauthlib>=1.0.0
+google-auth-httplib2>=0.1.1
+google-api-python-client>=2.100.0
+instagram-business-sdk>=20.0
+sumy>=0.9.1
+nltk>=3.8.1
+ffmpeg-python>=0.2.1
+PyYAML>=6.0
