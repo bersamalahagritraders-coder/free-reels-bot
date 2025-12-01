@@ -1,0 +1,47 @@
+name: Auto Post Free Reels
+
+on:
+  schedule:
+    # Run daily at 09:45 AM IST (15 minutes after 09:30 UTC which is 15:00 IST)
+    - cron: '15 4 * * *'  # 04:15 UTC = 09:45 AM IST
+  workflow_dispatch:
+
+jobs:
+  create_and_upload_reel:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Create .env file
+        run: |
+          echo "BRAND_NAME=Daily Free News" >> .env
+          echo "LANG=en" >> .env
+          echo "MAX_STORIES=3" >> .env
+          echo "YTB_CLIENT_ID=${{ secrets.YTB_CLIENT_ID }}" >> .env
+          echo "YTB_CLIENT_SECRET=${{ secrets.YTB_CLIENT_SECRET }}" >> .env
+          echo "YTB_REFRESH_TOKEN=${{ secrets.YTB_REFRESH_TOKEN }}" >> .env
+      
+      - name: Run Free Reels Bot
+        run: python scripts/main.py
+      
+      - name: Upload artifact
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: reel-output
+          path: reel.mp4
