@@ -2,8 +2,7 @@ name: YouTube Shorts Auto-Upload
 
 on:
   schedule:
-    - cron: '30 0,3,6,9,12,15,18 * * *'
-  workflow_dispatch:
+- cron: '*/30 * * * *'
 
 jobs:
   upload-youtube:
