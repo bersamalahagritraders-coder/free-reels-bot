@@ -1,13 +1,13 @@
-name: Auto Post Free Reels
+name: Auto Post Free Reels - Continuous
 
 on:
   schedule:
-    # Run daily at 09:45 AM IST (15 minutes after 09:30 UTC which is 15:00 IST)
-    - cron: '15 4 * * *'  # 04:15 UTC = 09:45 AM IST
+    # Run every 10 minutes to continuously fetch and post new news
+    - cron: '*/10 * * * *'
   workflow_dispatch:
 
 jobs:
-  create_and_upload_reel:
+  fetch_and_post_news:
     runs-on: ubuntu-latest
     
     steps:
@@ -31,17 +31,19 @@ jobs:
         run: |
           echo "BRAND_NAME=Daily Free News" >> .env
           echo "LANG=en" >> .env
-          echo "MAX_STORIES=3" >> .env
+          echo "MAX_STORIES=1" >> .env
           echo "YTB_CLIENT_ID=${{ secrets.YTB_CLIENT_ID }}" >> .env
           echo "YTB_CLIENT_SECRET=${{ secrets.YTB_CLIENT_SECRET }}" >> .env
           echo "YTB_REFRESH_TOKEN=${{ secrets.YTB_REFRESH_TOKEN }}" >> .env
       
-      - name: Run Free Reels Bot
+      - name: Fetch Latest News & Create Video
         run: python scripts/main.py
+        continue-on-error: true
       
-      - name: Upload artifact
-        if: success()
+      - name: Upload artifacts
+        if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: reel-output
+          name: reel-output-${{ github.run_number }}
           path: reel.mp4
+          retention-days: 7
