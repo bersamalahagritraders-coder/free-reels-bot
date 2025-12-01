@@ -1,0 +1,10 @@
+https://feeds.bbci.co.uk/news/world/rss.xml
+https://www.aljazeera.com/xml/rss/all.xml
+https://www.reuters.com/rssFeed/worldNews
+https://feeds.theguardian.com/international/rss
+https://feeds.bloomberg.com/markets/news.rss
+https://feeds.indianexpress.com/news
+https://feeds.hindustantimes.com/rss/india
+https://feeds.thehindu.com/news/national/
+https://feeds.ndtv.com/ndtv/india
+https://feeds.deccanherald.com/rss/technology
