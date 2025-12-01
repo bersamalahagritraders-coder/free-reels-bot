@@ -1,0 +1,29 @@
+name: YouTube Shorts Auto-Upload
+
+on:
+  schedule:
+    - cron: '30 0,3,6,9,12,15,18 * * *'
+  workflow_dispatch:
+
+jobs:
+  upload-youtube:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install google-auth-oauthlib google-auth-httplib2 google-api-python-client
+      
+      - name: Upload to YouTube Shorts
+        env:
+          YTB_CLIENT_ID: ${{ secrets.YTB_CLIENT_ID }}
+          YTB_CLIENT_SECRET: ${{ secrets.YTB_CLIENT_SECRET }}
+          YTB_REFRESH_TOKEN: ${{ secrets.YTB_REFRESH_TOKEN }}
+        run: python scripts/upload_youtube.py
